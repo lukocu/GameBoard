@@ -12,10 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BattleService {
@@ -169,7 +166,7 @@ public class BattleService {
 
 
     @Transactional
-    public String moveUnitRandomly(String playerColor,Long unitId) {
+    public String moveUnitRandomly(String playerColor, Long unitId) {
         Unit unit = unitRepository.findById(unitId).orElseThrow(() -> new IllegalArgumentException("Unit not found"));
 
         if (unit instanceof Cannon) {
@@ -186,8 +183,9 @@ public class BattleService {
             maxDistance = random.nextInt(3) + 1;
         }
 
-        List<int[]> shuffledDirections = List.of(directions);
-        java.util.Collections.shuffle(shuffledDirections);
+
+        List<int[]> shuffledDirections = new ArrayList<>(List.of(directions));
+        Collections.shuffle(shuffledDirections);
 
         for (int[] direction : shuffledDirections) {
             int distance = random.nextInt(maxDistance) + 1;

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 public class Player {
@@ -54,25 +55,15 @@ public class Player {
         this.color = color;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public void setGameSession(GameSession gameSession) {
+        if (this.gameSession != null && this.gameSession.equals(gameSession)) {
+            return;
+        }
 
-        Player player = (Player) o;
-
-        return name.equals(player.name) && color.equals(player.color);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + color.hashCode();
-        return result;
-    }
-
-    public void setGameSession(GameSession currentGameSession) {
-        this.gameSession=currentGameSession;
+        this.gameSession = gameSession;
+        if (gameSession != null) {
+            gameSession.addPlayer(this);
+        }
     }
 
     public GameSession getGameSession() {
@@ -103,5 +94,19 @@ public class Player {
         return lastCommandTimes;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id) &&
+                Objects.equals(name, player.name) &&
+                Objects.equals(color, player.color) &&
+                Objects.equals(gameSession, player.gameSession);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, color, gameSession);
+    }
 }

@@ -17,7 +17,7 @@ public class Archer extends Unit {
 
     @Override
     public boolean canMove(int newX, int newY, int boardWidth, int boardHeight) {
-        // Check if the move is within the bounds of the board
+
         if (newX < 0 || newX >= boardWidth || newY < 0 || newY >= boardHeight) {
             return false;
         }

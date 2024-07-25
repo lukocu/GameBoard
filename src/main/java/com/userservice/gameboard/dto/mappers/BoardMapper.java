@@ -18,7 +18,7 @@ public class BoardMapper {
         dto.setId(board.getId());
         dto.setWidth(board.getWidth());
         dto.setHeight(board.getHeight());
-        dto.setUnits(board.getUnits().stream().map(unitMapper::toDTO).collect(Collectors.toList()));
+        dto.setUnits(board.getUnitsById().values().stream().map(unitMapper::toDTO).collect(Collectors.toList()));
         return dto;
     }
 
